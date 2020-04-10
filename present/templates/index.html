@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<h1>奖池期数</h1>
+<div class="d-flex flex-column">
+    {% for item in past_record %}
+        <a class="btn btn-secondary text-center" href="{{ url_for('.show_page', page_id=item.name)}}">{{ item.name }}</a>
+    {% endfor%}
+</div>
+    
+   
+{% endblock %}

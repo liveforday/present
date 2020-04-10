@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% block content %}
+    <h3>第{{ past_record.name }}期</h3>
+    <hr>
+    <div>
+        {{ render_form(form, form_type="inline")}}
+    </div>
+    <hr>
+    <ul id="jackpot" class="list-group shadow-lg">
+        {% for item in past_record.past_record2presents %}
+            {% if past_record.binggo_name %}
+                {% if item.name in past_record.binggo_name %}
+                    <li id="{{ item.id }}" class="list-group-item list-group-item-action text-dark text-center bg-success"> {{ item.name }} </li>
+                {% else %}
+                    <li id="{{ item.id }}" class="list-group-item list-group-item-action text-dark text-center"> {{ item.name }} </li>
+                {% endif %}
+            {% else %}
+                <li id="{{ item.id }}" class="list-group-item list-group-item-action text-dark text-center"> {{ item.name }} </li>   
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <hr>
+    <div style="text-align:center" class="d-inline-flex">
+        {% if past_record.binggo_name %}
+            {% if past_record == latest_record %}
+                <button id="new" class="btn btn-warning "> <a href="{{url_for('show_page', page_id=past_record.name+1)}}">new</a> </button>
+            {% endif %}
+        {% else %}
+            <button id="lottery" class="btn btn-warning">转圈圈</button>
+            {{ render_form(binggo_form, form_type="inline", extra_classes="d-none", id="binggo")}}
+        {% endif %}
+
+        
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+<!DOCTYPE html>
+<html lang="en">
+    <head class="text-center">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        {{ bootstrap.load_css() }}
+        <link rel="text/css" href="{{ url_for('static', filename='css/style.css')}}">
+    </head>
+    
+    <body>
+        <div class="container">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert" >
+                <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                </button>{{ message[1] }}</div>
+            {% endfor %}
+
+
+            <h2><img style="width:30px" src="{{ url_for('static', filename='Ramy.png')}}"><small>小钰的秘密花园</small></h2>
+            <ul class="nav nav-pills navbar-dark bg-dark">
+                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('index')}}">home</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="#">login</a></li>
+            </ul>
+        {% block content %}
+        {% endblock %}
+        <div class="d-flex justify-content-center">
+            <img src="{{ url_for('static', filename='totoro.gif')}}">
+        </div>
+        </div>
+        <footer class="text-center">
+        &copy; 2020<a href="#">Ramy</a>
+        </footer>  
+    {% block script %}
+    <script src="{{ url_for('static', filename='js/script.js')}}"></script>
+    {{ bootstrap.load_js() }}
+    <script>
+        var timer;
+            var pre_color;
+            function change_backgroung(){
+                var x = 9;
+                var y = 0;
+                var rand_num = parseInt(Math.random() * (x - y + 1) + y);
+                var choose_fomat;
+                var current_history;
+                choose_fomat = "#jackpot li:eq("+String(rand_num)+")"
+                $("#jackpot li").removeClass("bg-info")
+                $(choose_fomat).addClass("bg-info")
+            }
+            $("#lottery").click(function(){
+                var state_text;
+                state_text = $("#lottery").text();
+                if (state_text == "转圈圈"){
+                    $("#lottery").text("晕了晕了")
+                    timer = setInterval(change_backgroung, 200)
+                }
+                if (state_text == "晕了晕了"){
+                    $("#lottery").text("转圈圈")
+                    clearTimeout(timer);
+                    $("#lottery").addClass("d-none")
+                    $("#new").removeClass("d-none")
+                    $("#binggo").removeClass("d-none")
+                    var x = 9;
+                    var y = 0;
+                    var rand_num = parseInt(Math.random() * (x - y + 1) + y);
+                    choose_fomat = "#jackpot li:eq("+String(rand_num)+")"
+                    $("#jackpot li").removeClass("bg-info")
+                    $(choose_fomat).addClass("bg-info")
+                    var binggo_name = $(choose_fomat).text()
+                    $("#binggo_name").attr({value:binggo_name})
+                }
+            });
+    </script>
+    {% endblock %}
+    
+    </body>
+  
+</html>

@@ -1,0 +1,36 @@
+body {
+    background-color: rgb(245, 245, 245) !important;
+}
+
+p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.container {
+    max-width: 640px !important;
+}
+
+
+
+header {
+    margin: 50px 0 40px 0;
+}
+
+header h1 {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+
+header a {
+    text-decoration: none !important;
+}
+
+footer {
+    display: inline;
+}
+.present-form {
+    margin-bottom: 20px;
+}
+
