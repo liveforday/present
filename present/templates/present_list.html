@@ -24,13 +24,12 @@
     <div style="text-align:center" class="d-inline-flex">
         {% if past_record.binggo_name %}
             {% if past_record == latest_record %}
-                <button id="new" class="btn btn-warning "> <a href="{{url_for('show_page', page_id=past_record.name+1)}}">new</a> </button>
+                {{moment(past_record.timestamp).fromNow()}}
+                <button id="new" class="btn btn-warning " > <a href="{{url_for('show_page', page_id=past_record.name+1)}}">new</a> </button>
             {% endif %}
-        {% else %}
+        {% else %}  
             <button id="lottery" class="btn btn-warning">转圈圈</button>
             {{ render_form(binggo_form, form_type="inline", extra_classes="d-none", id="binggo")}}
         {% endif %}
-
-        
     </div>
 {% endblock %}

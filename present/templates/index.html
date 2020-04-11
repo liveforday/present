@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% block content%}
 
-<h1>奖池期数</h1>
+<h1>奖池期数 {{ latest_record.name }}</h1>
 <div class="d-flex flex-column">
-    {% for item in past_record %}
-        <a class="btn btn-secondary text-center" href="{{ url_for('.show_page', page_id=item.name)}}">{{ item.name }}</a>
-    {% endfor%}
+    {% if past_record %}
+        {% for item in past_record %}
+            {% if item.state %}
+                <a class="btn btn-secondary text-center" href="{{ url_for('.show_page', page_id=item.name)}}">{{ item.name }}</a>
+            {% endif %}
+        {% endfor%}
+    {% else %}
+    <button id="new" class="btn btn-warning "> <a href="{{url_for('show_page', page_id=1)}}">new</a> </button>
+    {% endif %}
+    
 </div>
     
    

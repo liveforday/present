@@ -2,13 +2,26 @@ from flask import render_template, redirect, url_for, flash
 from present import app, db
 from present.models import User, Present, PastRecord
 from present.forms import addPresent, BinggoPresent
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.sql import func
+import datetime
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    past_record = PastRecord.query.all()
+    try:
+        past_record = PastRecord.query.all()
+    except OperationalError:
+        past_record = None
+
+    pre_record = PastRecord.query.order_by(PastRecord.name.desc()).first()
+    if pre_record:
+        time_diff = datetime.datetime.now() - pre_record.timestamp
+        print(time_diff.total_seconds(), pre_record.timestamp, datetime.datetime.now())
+
+        if time_diff.total_seconds() > 100:
+            pre_record.state = True
+            db.session.commit()
     return render_template("index.html", past_record=past_record)
     # past_record = PastRecord.query.order_by(PastRecord.name).first()
     # presents = Present.query.with_parent(past_record).all()
@@ -56,10 +69,13 @@ def show_page(page_id):
         past_record = PastRecord(name=page_id)
         db.session.add(past_record)
         db.session.commit()
-        print("xinqi", page_id, past_record)
+        if past_record.name == 1:
+            past_record.state = True
+            db.session.add(past_record)
+            db.session.commit()
+        return redirect(url_for("index"))
     else:
         past_record = record
-        print("wangqi")
 
     presents = Present.query.with_parent(past_record).all()
     binggo_form = BinggoPresent()

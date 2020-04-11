@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -22,6 +23,8 @@ class PastRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Integer, unique=True)
     binggo_name = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime, default=datetime.now, index=True)
+    state = db.Column(db.Boolean, default=False)
 
     past_record2presents = db.relationship(
         "Present", back_populates="presents2past_record"

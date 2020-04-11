@@ -25,6 +25,7 @@
             </ul>
         {% block content %}
         {% endblock %}
+        <div id="test"></div>
         <div class="d-flex justify-content-center">
             <img src="{{ url_for('static', filename='totoro.gif')}}">
         </div>
@@ -35,7 +36,9 @@
     {% block script %}
     <script src="{{ url_for('static', filename='js/script.js')}}"></script>
     {{ bootstrap.load_js() }}
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
     <script>
+        $("#test").text(moment().format())
         var timer;
             var pre_color;
             function change_backgroung(){

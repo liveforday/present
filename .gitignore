@@ -110,3 +110,4 @@ user/test.py
 .db
 /present-env
 /.vscode
+*.db
